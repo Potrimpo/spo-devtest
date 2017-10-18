@@ -102,12 +102,13 @@ class AccountForm extends Component {
   }
 
   setValueOrError(name, field) {
-      this.setState({
+      this.setState(prev => ({
         [field]: {
+          ...prev[field],
           value: name,
           error: AccountForm.fieldValidation(name, field)
         }
-      })
+      }))
   }
 
   setFirstName(event) {
