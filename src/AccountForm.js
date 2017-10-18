@@ -179,7 +179,7 @@ class AccountForm extends Component {
             {...this.state.email}
             onChange={this.setEmail}
             />
-            <button id="account-form-submit-button" type="submit" onClick={this.submit}>
+            <button id="account-form-submit" type="submit" onClick={this.submit}>
               SUBMIT
             </button>
             <NotificationSystem ref="notifSystem" />

@@ -49,7 +49,7 @@ input:focus {
   font-size: 0.85em;
 }
 
-#account-form-submit-button {
+button#account-form-submit {
   width: 80px;
   height: 25px;
   margin-top: 5px;
