@@ -55,7 +55,7 @@ class AccountForm extends Component {
 
   static emailValidation = email =>
     // this is nightmarish
-    /[a-z0-9_.!#$%&'*+-/=?^_`{|}~]+[a-z0-9_!#$%&'*+-/=?^_`{|}~]@[a-z]+[a-z-.]*[a-z]+/.test(email) ?
+    /[a-z0-9_.!#$%&'*+-/=?^_`{|}~]*[a-z0-9_!#$%&'*+-/=?^_`{|}~]@[a-z]+[-.]*?[a-z]+/.test(email) ?
       false :
       "Must be a valid email address"
 
