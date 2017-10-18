@@ -2,7 +2,6 @@ import React from 'react';
 import { configure, shallow, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import AccountForm from '../AccountForm';
-import FormField from '../FormField';
 
 const emptyFieldMessage = "This field is required"
 const badNameMessage = "Name may only contain upper and lowercase letters"
@@ -20,6 +19,14 @@ const brokenState = {
   username: { value: "UP" },
   password: { value: "short" },
   email: { value: "lewis!@.gong.bong." }
+}
+
+const successState = {
+  firstName: { value: "lewis" },
+  lastName: { value: "knox" },
+  username: { value: "lewis.knox" },
+  password: { value: "passwooord" },
+  email: { value: "lewis@gmail.bong" }
 }
 
 configure({ adapter: new Adapter() });
@@ -74,5 +81,14 @@ describe('<AccountForm />', () => {
     wrapper.find('FormField span')
       .map(errNode => errNode.text())
       .map(err => expect(errorMessages).toContain(err))
+  })
+
+  it('popup appears on successful submit', () => {
+    const wrapper = mount(<AccountForm />)
+    wrapper.setState(successState)
+
+    wrapper.find('#account-form-submit').simulate('click')
+
+    expect(wrapper.find('.notification-message').text()).toEqual("You got an account!")
   })
 });

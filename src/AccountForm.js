@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import NotificationSystem from 'react-notification-system';
 import FormField from './FormField';
 
 const defaultField = {
@@ -27,6 +28,9 @@ class AccountForm extends Component {
     this.submit = this.submit.bind(this)
   }
 
+  componentDidMount() {
+    this._notifSystem = this.refs.notifSystem
+  }
 
   static requiredField = val =>
     val.length === 0 ?
@@ -79,6 +83,8 @@ class AccountForm extends Component {
     }
   }
 
+  _notifSystem = null
+
   fullValidationSweep() {
     const errorList = []
     for (const field in this.state) {
@@ -130,8 +136,14 @@ class AccountForm extends Component {
 
     if (errors.length === 0) {
       console.log("this is the winning path")
-    } else {
-      console.error("there is an incorrect field", errors)
+
+      this._notifSystem.addNotification({
+        message: "You got an account!",
+        level: "success",
+        position: "tc",
+        uid: "form-submit-alert",
+        autoDismiss: 0
+      })
     }
   }
 
@@ -173,6 +185,7 @@ class AccountForm extends Component {
             <button id="account-form-submit" type="submit" onClick={this.submit}>
               SUBMIT
             </button>
+            <NotificationSystem ref="notifSystem" />
         </fieldset>
       </form>
     );
