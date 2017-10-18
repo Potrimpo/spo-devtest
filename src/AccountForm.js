@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NotificationSystem from 'react-notification-system';
 import FormField from './FormField';
+import './AccountForm.css'
 
 const defaultField = {
   value: "",
@@ -12,11 +13,11 @@ class AccountForm extends Component {
     super()
 
     this.state = {
-      firstName: defaultField,
-      lastName: defaultField,
-      username: defaultField,
-      password: defaultField,
-      email: defaultField
+      firstName: { ...defaultField, title: "First Name" },
+      lastName: { ...defaultField, title: "Last Name" },
+      username: { ...defaultField, title: "Username" },
+      password: { ...defaultField, title: "Password" },
+      email: { ...defaultField, title: "Email" }
     }
 
     this.setValueOrError = this.setValueOrError.bind(this)
@@ -149,40 +150,35 @@ class AccountForm extends Component {
 
   render() {
     return (
-      <form>
-        <legend>Create your free account</legend>
+      <form className="AccountForm">
+        <legend id="account-form-header">Create your free account</legend>
         <fieldset>
           <FormField
             type="firstName"
-            value={this.state.firstName.value}
-            error={this.state.firstName.error}
+            {...this.state.firstName}
             onChange={this.setFirstName}
             />
           <FormField
             type="lastName"
-            value={this.state.lastName.value}
-            error={this.state.lastName.error}
+            {...this.state.lastName}
             onChange={this.setLastName}
             />
           <FormField
             type="username"
-            value={this.state.username.value}
-            error={this.state.username.error}
+            {...this.state.username}
             onChange={this.setUsername}
             />
           <FormField
             type="password"
-            value={this.state.password.value}
-            error={this.state.password.error}
+            {...this.state.password}
             onChange={this.setPassword}
             />
           <FormField
             type="email"
-            value={this.state.email.value}
-            error={this.state.email.error}
+            {...this.state.email}
             onChange={this.setEmail}
             />
-            <button id="account-form-submit" type="submit" onClick={this.submit}>
+            <button id="account-form-submit-button" type="submit" onClick={this.submit}>
               SUBMIT
             </button>
             <NotificationSystem ref="notifSystem" />

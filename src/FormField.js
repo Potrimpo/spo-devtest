@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './AccountForm.css'
 
 class FormField extends Component {
   render() {
     return (
-      <div id={this.props.type}>
+      <div className="field-wrapper" id={this.props.type}>
+        <p className="field-title">{this.props.title}</p>
         <input
+          className="form-field"
           value={this.props.value}
           onChange={this.props.onChange}
           type="text"
