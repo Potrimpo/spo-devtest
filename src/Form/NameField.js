@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 class NameField extends Component {
   render() {
     return (
-      <div>
+      <div id={this.props.type}>
         <input
           value={this.props.value}
           onChange={this.props.onChange}
           type="text"
-          id={this.props.type}
         />
         {this.props.error && <span>{this.props.error}</span>}
       </div>
@@ -20,7 +19,10 @@ class NameField extends Component {
   NameField.propTypes = {
     type: PropTypes.string,
     value: PropTypes.string,
-    error: PropTypes.string,
+    error: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     onChange: PropTypes.func
   }
 
