@@ -38,15 +38,13 @@ describe('<AccountForm />', () => {
     expect(wrapper.state('firstName').value).toEqual(newValue)
   })
 
-  it('empty fields have appropriate errors', () => {
+  it('empty fields display appropriate message on submit', () => {
     const wrapper = mount(<AccountForm />)
-    wrapper.find('#firstName > input')
-      .simulate('change', {target: { value: '' } })
-
+    wrapper.find('#account-form-submit').simulate('click')
     wrapper.update()
 
-    expect(wrapper.state('firstName').error).toEqual(emptyFieldMessage)
-    expect(wrapper.find('#firstName > span').text()).toEqual(emptyFieldMessage)
+    wrapper.find('FormField span')
+      .map(err => expect(err.text()).toEqual(emptyFieldMessage))
   })
 
   it('fields display errors on typing malformed input', () => {

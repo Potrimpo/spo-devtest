@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FormField from './FormField';
 
 const defaultField = {
-  value: "init",
+  value: "",
   error: null
 }
 
