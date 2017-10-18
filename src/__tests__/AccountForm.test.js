@@ -1,25 +1,34 @@
 import React from 'react';
 import { configure, shallow, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-// import sinon from 'sinon';
 import AccountForm from '../AccountForm';
-import NameField from '../Form/NameField';
+import FormField from '../FormField';
 
 const emptyFieldMessage = "This field is required"
-const badNameMessage = "Name can only contain upper and lowercase letters"
+const badNameMessage = "Name may only contain upper and lowercase letters"
+
+const errorMessages = [
+  "Name may only contain upper and lowercase characters",
+  "Username can only contain lowercase letters, underscores, and periods",
+  "Password must be longer than 8 characters",
+  "Must be a valid email address"
+]
+
+const brokenState = {
+  firstName: { value: "." },
+  lastName: { value: "$" },
+  username: { value: "UP" },
+  password: { value: "short" },
+  email: { value: "lewis!@.gong.bong." }
+}
 
 configure({ adapter: new Adapter() });
 
 describe('<AccountForm />', () => {
 
-  it('renders each field properly', () => {
-    const wrapper = shallow(<AccountForm />)
-    expect(wrapper.find(NameField)).toHaveLength(2)
-  });
-
   it('setting field values alters AccountForm state', () => {
     const wrapper = mount(<AccountForm />)
-    const input = wrapper.find('#firstname > input')
+    const input = wrapper.find('#firstName > input')
     const newValue = "hello"
 
     input.simulate('change', {target: {value: newValue}})
@@ -31,23 +40,41 @@ describe('<AccountForm />', () => {
 
   it('empty fields have appropriate errors', () => {
     const wrapper = mount(<AccountForm />)
-    const input = wrapper.find('#firstname > input')
+    wrapper.find('#firstName > input')
+      .simulate('change', {target: { value: '' } })
 
-    input.simulate('change', {target: { value: '' } })
     wrapper.update()
 
     expect(wrapper.state('firstName').error).toEqual(emptyFieldMessage)
-    expect(wrapper.find('#firstname > span').text()).toEqual(emptyFieldMessage)
+    expect(wrapper.find('#firstName > span').text()).toEqual(emptyFieldMessage)
   })
 
-  it('name fields have errors on malformed input', () => {
+  it('fields display errors on typing malformed input', () => {
     const wrapper = mount(<AccountForm />)
-    const input = wrapper.find('#firstname > input')
 
-    input.simulate('change', {target: { value: 'hello world' } })
+    wrapper.find('FormField')
+      .map(formField => {
+        const type = formField.find('div').prop('id')
+
+        return formField.find('input')
+          .simulate('change', { target: { value: brokenState[type].value }})
+      })
+
     wrapper.update()
 
-    expect(wrapper.state('firstName').error).toEqual(badNameMessage)
-    expect(wrapper.find('#firstname > span').text()).toEqual(badNameMessage)
+    wrapper.find('FormField span')
+      .map(errNode => errNode.text())
+      .map(err => expect(errorMessages).toContain(err))
+  })
+
+  it('fields display errors on submit with malformed state', () => {
+    const wrapper = mount(<AccountForm />)
+
+    wrapper.setState(brokenState)
+    wrapper.find('#account-form-submit').simulate('click')
+
+    wrapper.find('FormField span')
+      .map(errNode => errNode.text())
+      .map(err => expect(errorMessages).toContain(err))
   })
 });
