@@ -31,12 +31,27 @@ class AccountForm extends Component {
       "This field is required" :
       false
 
+  static fieldValidation(val, field) {
+    const fieldNotPresent = AccountForm.requiredField(val)
+    if (fieldNotPresent) {
+      return fieldNotPresent
+    }
+
+    switch (field) {
+      case "firstName":
+      case "lastName":
+        return AccountForm.nameValidation(val)
+
+      default:
+        throw new Error("attempting to validate an unknown field")
+    }
+  }
 
   setValueOrError(name, field) {
       this.setState({
         [field]: {
           value: name,
-          error: AccountForm.requiredField(name) || AccountForm.nameValidation(name)
+          error: AccountForm.fieldValidation(name, field)
         }
       })
   }
