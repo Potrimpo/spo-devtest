@@ -1,5 +1,12 @@
 .AccountForm {
   width: 370px;
+  border-style: solid;
+  border-width: thin;
+  border-color: rgb(164, 164, 164);
+}
+
+fieldset {
+  border-style: none;
 }
 
 #account-form-header {
@@ -14,6 +21,7 @@
   flex-direction: column;
   justify-content: center;
   font-size: 0.9em;
+  margin-bottom: 10px;
 }
 
 .field-title {
@@ -25,7 +33,20 @@
   border-style: solid;
   border-width: thin;
   border-color: rgb(164, 164, 164);
-  margin-bottom: 10px;
+}
+
+button:focus,
+input:focus {
+  outline: none;
+}
+
+.failed-input {
+  border-color: rgb(223, 33, 33);
+}
+
+.field-error {
+  color: rgb(223, 33, 33);
+  font-size: 0.85em;
 }
 
 #account-form-submit-button {

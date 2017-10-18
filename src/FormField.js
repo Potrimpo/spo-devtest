@@ -8,12 +8,12 @@ class FormField extends Component {
       <div className="field-wrapper" id={this.props.type}>
         <p className="field-title">{this.props.title}</p>
         <input
-          className="form-field"
+          className={`form-field ${this.props.error && "failed-input"}`}
           value={this.props.value}
           onChange={this.props.onChange}
           type="text"
         />
-        {this.props.error && <span>{this.props.error}</span>}
+        {this.props.error && <span className="field-error">{this.props.error}</span>}
       </div>
     );
   }
